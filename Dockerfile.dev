@@ -1,0 +1,10 @@
+FROM python:3.8
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+WORKDIR /backend
+ADD . /backend
+
+RUN pip install -r requirements.txt --quiet
+
+EXPOSE 8000
