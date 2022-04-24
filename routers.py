@@ -8,11 +8,11 @@ router_v1 = APIRouter()
 
 
 @router_v1.get('/buildings')
-async def get_building(
+async def get_nearest_building(
         lat: float,
         lon: float,
         data_source: BuildingsDataSource,
-        search_distance: float = 0.1
+        search_distance: float = 3
 ):
     """
     :param lat EPSG4386
