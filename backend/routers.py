@@ -24,7 +24,7 @@ async def get_nearest_building(
     async with AsyncClient() as client:
         if data_source == BuildingsDataSource.BDOT:
             response = await client.get(
-                'https://budynki.openstreetmap.org.pl'
+                'http://budynki.openstreetmap.org.pl'
                 '/josm_plugins/nearest_building'
                 f'?lon={lon}&lat={lat}&search_distance={search_distance}'
             )
