@@ -1,5 +1,17 @@
 version: '3'
 services:
+    db:
+        restart: always
+        image: "postgres:14.2"
+        env_file:
+            - .env
+        environment:
+            POSTGRES_USER: "${POSTGRES_USER}"
+            POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+            POSTGRES_DB: "${POSTGRES_DB}"
+        command: -p ${POSTGRES_PORT}
+        networks:
+            - dev-net
     backend:
         restart: always
         build:
