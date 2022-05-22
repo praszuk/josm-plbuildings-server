@@ -18,6 +18,11 @@ RUN pip install -r requirements.txt --quiet
 
 # Copy project
 COPY backend/ $APP_HOME/backend/
+
+# Copy migration files (alembic)
+COPY migrations/ $APP_HOME/migrations/
+COPY alembic.ini $APP_HOME/.
+
 RUN chown -R app:app $APP_HOME
 USER app
 
