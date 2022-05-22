@@ -5,6 +5,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /app
 ADD requirements.txt /app
 
+# Copy entrypoint
+COPY docker-entrypoint.sh /app
+
 RUN pip install -r requirements.txt --quiet
 
 EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]
