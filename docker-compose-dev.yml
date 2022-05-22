@@ -23,9 +23,11 @@ services:
             - ./backend:/app/backend
             - ./migrations:/app/migrations
             - ./alembic.ini:/app/alembic.ini
-        command: uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+        command: ./docker-entrypoint.sh
         networks:
             - dev-net
+        environment:
+            DEV: 1
 
     nginx:
         restart: always

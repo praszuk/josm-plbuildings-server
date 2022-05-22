@@ -19,9 +19,11 @@ services:
         build:
             context: .
             dockerfile: Dockerfile.prod
-        command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
+        command: ./docker-entrypoint.sh
         networks:
             - prod-net
+        environment:
+            DEV: 0
 
     nginx:
         restart: always

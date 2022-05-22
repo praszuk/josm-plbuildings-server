@@ -23,7 +23,12 @@ COPY backend/ $APP_HOME/backend/
 COPY migrations/ $APP_HOME/migrations/
 COPY alembic.ini $APP_HOME/.
 
+# Copy entrypoint
+# Copy entrypoint
+COPY docker-entrypoint.sh $APP_HOME
+
 RUN chown -R app:app $APP_HOME
 USER app
 
 EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]
