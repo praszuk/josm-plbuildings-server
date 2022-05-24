@@ -1,15 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from os import environ
+from backend.core.config import settings
 
-
-DATABASE_URL = 'postgresql://{}:{}@{}/{}'.format(
-    environ.get('POSTGRES_USER'),
-    environ.get('POSTGRES_PASSWORD'),
-    environ.get('POSTGRES_HOST'),
-    environ.get('POSTGRES_DB')
-)
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
