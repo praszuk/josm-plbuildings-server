@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Query, Response
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
 
@@ -29,10 +29,10 @@ def count_buildings(osm_data: str) -> int:
 
 @router.get('')
 async def get_nearest_building(
-        lat: float,
-        lon: float,
         data_source: BuildingsDataSource,
-        search_distance: float = 3,
+        lat: float = Query(default=..., gt=-90, lt=90),
+        lon: float = Query(default=..., gt=-180, lt=180),
+        search_distance: float = Query(3, gt=0),
         db: Session = Depends(get_db)
 ):
     """
