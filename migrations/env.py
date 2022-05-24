@@ -3,18 +3,13 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from logging.config import fileConfig
-from os import environ
 
+from backend.core.config import settings
 from backend.database.base import Base
 from backend.models import *  # noqa
 
 
-DATABASE_URI = 'postgresql://{}:{}@{}/{}'.format(
-    environ.get('POSTGRES_USER'),
-    environ.get('POSTGRES_PASSWORD'),
-    environ.get('POSTGRES_HOST'),
-    environ.get('POSTGRES_DB')
-)
+DATABASE_URL = settings.DATABASE_URL
 
 
 # this is the Alembic Config object, which provides
@@ -43,7 +38,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = DATABASE_URI
+    url = DATABASE_URL
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -64,7 +59,7 @@ def run_migrations_online():
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration['sqlalchemy.url'] = DATABASE_URI
+    configuration['sqlalchemy.url'] = DATABASE_URL
     connectable = engine_from_config(
         configuration,
         prefix='sqlalchemy.',
