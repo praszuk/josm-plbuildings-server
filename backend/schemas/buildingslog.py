@@ -28,6 +28,8 @@ class BuildingsLogBase(BaseModel):
         if val is not None and val < 0:
             raise ValueError('must be gte 0 or None')
 
+        return val
+
 
 class BuildingsLogCreate(BuildingsLogBase):
     class Config:
