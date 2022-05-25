@@ -30,15 +30,15 @@ def count_buildings(osm_data: str) -> int:
 @router.get('')
 async def get_nearest_building(
         data_source: BuildingsDataSource,
-        lat: float = Query(default=..., gt=-90, lt=90),
-        lon: float = Query(default=..., gt=-180, lt=180),
+        lat: float = Query(gt=-90, lt=90),
+        lon: float = Query(gt=-180, lt=180),
         search_distance: float = Query(3, gt=0),
         db: Session = Depends(get_db)
 ):
     """
+    :param data_source source from which will be data obtained
     :param lat EPSG4386
     :param lon EPSG4386
-    :param data_source source from which will be data obtained
     :param search_distance radius in meters
     :param db: database session
     """
