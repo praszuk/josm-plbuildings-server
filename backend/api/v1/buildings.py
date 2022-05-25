@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from datetime import datetime
 
+from backend.core.config import settings
 from backend.crud.buildingslog import create_buildings_log
 from backend.models.enums import BuildingsDataSource
 from backend.schemas.buildingslog import BuildingsLogCreate
@@ -50,7 +51,7 @@ async def get_nearest_building(
 
         if data_source == BuildingsDataSource.BDOT:
             response = await client.get(
-                'https://budynki.openstreetmap.org.pl'
+                f'{settings.BUDYNKI_SERVER_URL}'
                 '/josm_plugins/nearest_building'
                 f'?lon={lon}&lat={lat}&search_distance={search_distance}'
             )

@@ -12,6 +12,7 @@ class Settings(BaseSettings):
         environ.get('POSTGRES_HOST'),
         environ.get('POSTGRES_DB')
     )
+    BUDYNKI_SERVER_URL: str = environ.get('BUDYNKI_SERVER_URL').rstrip('/')
 
 
 settings = Settings()
