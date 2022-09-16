@@ -38,8 +38,8 @@ async def get_nearest_building(
 ):
     """
     :param data_source source from which will be data obtained
-    :param lat EPSG4386
-    :param lon EPSG4386
+    :param lat EPSG4326
+    :param lon EPSG4326
     :param search_distance radius in meters
     :param db: database session
     """
