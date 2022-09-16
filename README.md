@@ -20,6 +20,7 @@ BUDYNKI_SERVER_URL=https://budynki.openstreetmap.org.pl
 ```
 
 ### Run development
+_Note: Port 8080_
 ```
 docker-compose -f docker-compose-dev.yml -p dev up
 ```
