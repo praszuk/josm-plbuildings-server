@@ -28,7 +28,7 @@ def count_buildings(osm_data: str) -> int:
     return building_count if building_count else None
 
 
-@router.get('')
+@router.get('', deprecated=True)
 async def get_nearest_building(
         data_source: BuildingsDataSource,
         lat: float = Query(gt=-90, lt=90),
@@ -45,7 +45,6 @@ async def get_nearest_building(
     """
     request_receive_dt = datetime.utcnow()
     response_data = '<osm version="0.6"/>'
-    building_count = None
 
     async with AsyncClient() as client:
 
@@ -58,19 +57,19 @@ async def get_nearest_building(
             response_data = response.text
             building_count = count_buildings(response_data)
 
-        request_timedelta = datetime.utcnow() - request_receive_dt
-        request_duration_ms = request_timedelta.total_seconds() * 1000
+            request_timedelta = datetime.utcnow() - request_receive_dt
+            request_duration_ms = request_timedelta.total_seconds() * 1000
 
-        create_buildings_log(
-            db,
-            buildings_log=BuildingsLogCreate(
-                rq_recv_dt=request_receive_dt,
-                rq_duration_ms=request_duration_ms,
-                lat=lat,
-                lon=lon,
-                data_source=data_source,
-                building_count=building_count,
+            create_buildings_log(
+                db,
+                buildings_log=BuildingsLogCreate(
+                    rq_recv_dt=request_receive_dt,
+                    rq_duration_ms=request_duration_ms,
+                    lat=lat,
+                    lon=lon,
+                    data_source=data_source,
+                    building_count=building_count,
+                )
             )
-        )
 
         return Response(content=response_data, media_type='application/xml')
