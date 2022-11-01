@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from backend.models.buildingslog import BuildingsLog
-from backend.schemas.buildingslog import BuildingsLogCreate
+from backend.models.buildings_log import BuildingsLog
+from backend.schemas.buildings_log import BuildingsLogCreate
 
 
 def create_buildings_log(db: Session, buildings_log: BuildingsLogCreate):

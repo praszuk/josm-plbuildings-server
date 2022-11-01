@@ -1,1 +1,1 @@
-from .buildingslog import BuildingsLog
+from .buildings_log import BuildingsLog
