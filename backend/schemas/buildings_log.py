@@ -1,16 +1,16 @@
 from pydantic import BaseModel, validator
 
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from backend.models.enums import BuildingsDataSource
 
 
-class BuildingsLogBase(BaseModel):
+class BuildingsLog(BaseModel):
     rq_recv_dt: datetime
     rq_duration_ms: int
 
-    data_source: BuildingsDataSource
+    data_sources: List[BuildingsDataSource]
     lat: float
     lon: float
 
@@ -31,6 +31,6 @@ class BuildingsLogBase(BaseModel):
         return val
 
 
-class BuildingsLogCreate(BuildingsLogBase):
+class BuildingsLogCreate(BuildingsLog):
     class Config:
         orm_mode = True

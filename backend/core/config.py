@@ -5,6 +5,7 @@ from os import environ
 
 class Settings(BaseSettings):
     API_V1_STR: str = '/api/v1'
+    API_V2_STR: str = '/api/v2'
     PROJECT_NAME: str = 'josm-plbuildings-server'
     DATABASE_URL: str = 'postgresql://{}:{}@{}/{}'.format(
         environ.get('POSTGRES_USER'),

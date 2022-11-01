@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter, Depends, Query
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
 
 from datetime import datetime
+from typing import List
 
 from backend.core.config import settings
 from backend.crud.buildings_log import create_buildings_log
@@ -28,48 +29,53 @@ def count_buildings(osm_data: str) -> int:
     return building_count if building_count else None
 
 
-@router.get('', deprecated=True)
+@router.get('/nearest')
 async def get_nearest_building(
-        data_source: BuildingsDataSource,
+        data_sources: List[BuildingsDataSource] = Query(),
         lat: float = Query(gt=-90, lt=90),
         lon: float = Query(gt=-180, lt=180),
         search_distance: float = Query(3, gt=0),
         db: Session = Depends(get_db)
 ):
     """
-    :param data_source source from which will be data obtained
-    :param lat EPSG4326
-    :param lon EPSG4326
-    :param search_distance radius in meters
+    :param data_sources: sources from which will be data obtained
+    :param lat: EPSG4326
+    :param lon: EPSG4326
+    :param search_distance: radius in meters
     :param db: database session
     """
     request_receive_dt = datetime.utcnow()
-    response_data = '<osm version="0.6"/>'
+
+    result_data = {}
+    # empty_osm_data = '<osm version="0.6"/>'
 
     async with AsyncClient() as client:
-
-        if data_source == BuildingsDataSource.BDOT:
+        building_count = 0
+        if BuildingsDataSource.BDOT.value in data_sources:
             response = await client.get(
                 f'{settings.BUDYNKI_SERVER_URL}'
                 '/josm_plugins/nearest_building'
                 f'?lon={lon}&lat={lat}&search_distance={search_distance}'
             )
-            response_data = response.text
-            building_count = count_buildings(response_data)
+            result_data[BuildingsDataSource.BDOT.value] = response.text
+            building_count = count_buildings(response.text)
 
-            request_timedelta = datetime.utcnow() - request_receive_dt
-            request_duration_ms = request_timedelta.total_seconds() * 1000
+        request_timedelta = datetime.utcnow() - request_receive_dt
+        request_duration_ms = request_timedelta.total_seconds() * 1000
 
-            create_buildings_log(
-                db,
-                buildings_log=BuildingsLogCreate(
-                    rq_recv_dt=request_receive_dt,
-                    rq_duration_ms=request_duration_ms,
-                    lat=lat,
-                    lon=lon,
-                    data_sources=[data_source],
-                    building_count=building_count,
-                )
+        if BuildingsDataSource.EGIB.value in data_sources:
+            # TODO
+            pass
+
+        create_buildings_log(
+            db,
+            buildings_log=BuildingsLogCreate(
+                rq_recv_dt=request_receive_dt,
+                rq_duration_ms=request_duration_ms,
+                lat=lat,
+                lon=lon,
+                data_sources=data_sources,
+                building_count=building_count,
             )
-
-        return Response(content=response_data, media_type='application/xml')
+        )
+        return result_data
