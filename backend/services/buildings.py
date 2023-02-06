@@ -3,7 +3,7 @@ import asyncio
 from httpx import AsyncClient
 
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 from backend.api.v2.deps import BuildingsNearestParams
 from backend.crud.buildings_log import create_buildings_log
@@ -18,7 +18,7 @@ class BuildingsService(BaseService):
     async def get_nearest_building(
         self,
         nearest: BuildingsNearestParams
-    ) -> List[Optional[BuildingsData]]:
+    ) -> List[BuildingsData]:
 
         request_receive_dt = datetime.utcnow()
 
