@@ -2,7 +2,7 @@ import logging
 
 from json import JSONDecodeError
 
-from backend.api.v2.deps import BuildingsNearestParams
+from backend.api.v2.deps import BuildingAtParams
 from backend.core.config import settings
 from backend.schemas.buildings_data import BuildingsData
 from backend.services.base import BaseDataSourceService
@@ -17,14 +17,11 @@ class EGIBService(BaseDataSourceService):
     FORMAT: DataSourceFormat = DataSourceFormat.GEOJSON
     DATA_SOURCE: BuildingsDataSource = BuildingsDataSource.EGIB
 
-    async def fetch_nearest_building(
-        self,
-        nearest: BuildingsNearestParams
-    ) -> None:
+    async def fetch_building_at(self, location: BuildingAtParams) -> None:
         url = f'{settings.EGIB_PLBUILDINGS_SERVER_URL}' \
               '/api/v1/buildings/' \
-              f'?lat={nearest.lat}' \
-              f'&lon={nearest.lon}'
+              f'?lat={location.lat}' \
+              f'&lon={location.lon}'
 
         data = {}
         try:

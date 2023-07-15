@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from abc import ABC, abstractmethod
 
-from backend.api.v2.deps import BuildingsNearestParams
+from backend.api.v2.deps import BuildingAtParams
 from backend.models.enums import BuildingsDataSource, DataSourceFormat
 from backend.schemas.buildings_data import BuildingsData
 
@@ -33,7 +33,7 @@ class BaseDataSourceService(ABC):
     def buildings_count(self) -> int: ...
 
     @abstractmethod
-    async def fetch_nearest_building(
+    async def fetch_building_at(
         self,
-        nearest: BuildingsNearestParams
+        location: BuildingAtParams
     ) -> dict: ...

@@ -5,18 +5,18 @@ from typing import List
 
 from backend.api.deps import get_db
 from backend.services.buildings import BuildingsService
-from backend.schemas.buildings_data import  BuildingsData
+from backend.schemas.buildings_data import BuildingsData
 
-from .deps import BuildingsNearestParams
+from .deps import BuildingAtParams
 
 
 router = APIRouter()
 
 
-@router.get('/nearest')
-async def get_nearest_building(
-    nearest: BuildingsNearestParams = Depends(BuildingsNearestParams),
+@router.get('/')
+async def get_building_at(
+    location: BuildingAtParams = Depends(BuildingAtParams),
     db: Session = Depends(get_db)
 ) -> List[BuildingsData]:
-    buildings_data = await BuildingsService(db).get_nearest_building(nearest)
+    buildings_data = await BuildingsService(db).get_building_at(location)
     return buildings_data

@@ -2,7 +2,7 @@ import logging
 
 from json import JSONDecodeError
 
-from backend.api.v2.deps import BuildingsNearestParams
+from backend.api.v2.deps import BuildingAtParams
 from backend.core.config import settings
 from backend.schemas.buildings_data import BuildingsData
 from backend.services.base import BaseDataSourceService
@@ -16,16 +16,14 @@ class BDOTService(BaseDataSourceService):
     """
     FORMAT: DataSourceFormat = DataSourceFormat.GEOJSON
     DATA_SOURCE: BuildingsDataSource = BuildingsDataSource.BDOT
+    SEARCH_DISTANCE = 1  # meters
 
-    async def fetch_nearest_building(
-        self,
-        nearest: BuildingsNearestParams
-    ) -> None:
+    async def fetch_building_at(self, location: BuildingAtParams) -> None:
         url = f'{settings.BUDYNKI_SERVER_URL}' \
               '/josm_plugins/v2/nearest_building' \
-              f'?lon={nearest.lon}' \
-              f'&lat={nearest.lat}' \
-              f'&search_distance={nearest.search_distance}'
+              f'?lon={location.lon}' \
+              f'&lat={location.lat}' \
+              f'&search_distance={self.SEARCH_DISTANCE}'
 
         data = {}
         try:

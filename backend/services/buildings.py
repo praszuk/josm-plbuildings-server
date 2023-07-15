@@ -5,7 +5,7 @@ from httpx import AsyncClient
 from datetime import datetime
 from typing import List
 
-from backend.api.v2.deps import BuildingsNearestParams
+from backend.api.v2.deps import BuildingAtParams
 from backend.crud.buildings_log import create_buildings_log
 from backend.models.enums import BuildingsDataSource
 from backend.schemas.buildings_data import BuildingsData
@@ -16,9 +16,9 @@ from backend.services.egib import EGIBService
 
 
 class BuildingsService(BaseService):
-    async def get_nearest_building(
+    async def get_building_at(
         self,
-        nearest: BuildingsNearestParams
+        location: BuildingAtParams
     ) -> List[BuildingsData]:
 
         request_receive_dt = datetime.utcnow()
@@ -28,14 +28,14 @@ class BuildingsService(BaseService):
 
         services = []
         async with AsyncClient() as client:
-            if BuildingsDataSource.BDOT in nearest.data_sources:
+            if BuildingsDataSource.BDOT in location.data_sources:
                 services.append(BDOTService(client))
 
-            if BuildingsDataSource.EGIB in nearest.data_sources:
+            if BuildingsDataSource.EGIB in location.data_sources:
                 services.append(EGIBService(client))
 
             await asyncio.gather(
-                *[s.fetch_nearest_building(nearest) for s in services]
+                *[s.fetch_building_at(location) for s in services]
             )
 
             for service in services:
@@ -50,9 +50,9 @@ class BuildingsService(BaseService):
             buildings_log=BuildingsLogCreate(
                 rq_recv_dt=request_receive_dt,
                 rq_duration_ms=request_duration_ms,
-                lat=nearest.lat,
-                lon=nearest.lon,
-                data_sources=nearest.data_sources,
+                lat=location.lat,
+                lon=location.lon,
+                data_sources=location.data_sources,
                 building_count=building_count,
             )
         )
