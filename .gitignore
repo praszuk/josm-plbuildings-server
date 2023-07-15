@@ -3,4 +3,5 @@
 !.gitkeep
 !.dockerignore
 !.github/
+!.pre-commit-config.yaml
 __pycache__/
