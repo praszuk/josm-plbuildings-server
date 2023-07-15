@@ -1,6 +1,6 @@
-from pydantic import BaseSettings
-
 from os import environ
+
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -11,7 +11,7 @@ class Settings(BaseSettings):
         environ.get('POSTGRES_USER'),
         environ.get('POSTGRES_PASSWORD'),
         environ.get('POSTGRES_HOST'),
-        environ.get('POSTGRES_DB')
+        environ.get('POSTGRES_DB'),
     )
     BUDYNKI_SERVER_URL: str = environ.get('BUDYNKI_SERVER_URL').rstrip('/')
     EGIB_PLBUILDINGS_SERVER_URL = environ.get(

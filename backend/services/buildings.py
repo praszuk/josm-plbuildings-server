@@ -1,9 +1,8 @@
 import asyncio
-
-from httpx import AsyncClient
-
 from datetime import datetime
 from typing import List
+
+from httpx import AsyncClient
 
 from backend.api.v2.deps import BuildingAtParams
 from backend.crud.buildings_log import create_buildings_log
@@ -17,10 +16,8 @@ from backend.services.egib import EGIBService
 
 class BuildingsService(BaseService):
     async def get_building_at(
-        self,
-        location: BuildingAtParams
+        self, location: BuildingAtParams
     ) -> List[BuildingsData]:
-
         request_receive_dt = datetime.utcnow()
 
         result_buildings_data = []
@@ -54,7 +51,7 @@ class BuildingsService(BaseService):
                 lon=location.lon,
                 data_sources=location.data_sources,
                 building_count=building_count,
-            )
+            ),
         )
 
         return result_buildings_data
