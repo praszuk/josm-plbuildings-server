@@ -27,7 +27,7 @@ services:
 
     nginx:
         restart: always
-        image: nginx:1.21.6-alpine
+        image: nginx:1.25.1-alpine
         ports:
             - ${PORT:-80}:80
         volumes:
