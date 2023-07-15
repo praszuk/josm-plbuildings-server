@@ -12,6 +12,7 @@ from backend.schemas.buildings_data import BuildingsData
 from backend.schemas.buildings_log import BuildingsLogCreate
 from backend.services.base import BaseService
 from backend.services.bdot import BDOTService
+from backend.services.egib import EGIBService
 
 
 class BuildingsService(BaseService):
@@ -31,8 +32,7 @@ class BuildingsService(BaseService):
                 services.append(BDOTService(client))
 
             if BuildingsDataSource.EGIB in nearest.data_sources:
-                # services.append(EGIBService(client)) TODO
-                pass
+                services.append(EGIBService(client))
 
             await asyncio.gather(
                 *[s.fetch_nearest_building(nearest) for s in services]
