@@ -62,7 +62,7 @@ async def get_nearest_building(
                 db,
                 buildings_log=BuildingsLogCreate(
                     rq_recv_dt=request_receive_dt,
-                    rq_duration_ms=request_duration_ms,
+                    rq_duration_ms=int(request_duration_ms),
                     lat=lat,
                     lon=lon,
                     data_sources=[data_source],
