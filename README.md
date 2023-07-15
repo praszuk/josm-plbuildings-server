@@ -18,6 +18,14 @@ POSTGRES_PASSWORD=database_password
 # External servers
 BUDYNKI_SERVER_URL=https://budynki.openstreetmap.org.pl
 ```
+You can also add variables for docker.
+It prevents a permissions error (read-only files) on e.g. creating migrations
+from container.
+Note: Below are default – not needed to set.
+```
+USER_ID=1000
+GROUP_ID=1000
+```
 
 ### Run development
 _Note: Port 8080_

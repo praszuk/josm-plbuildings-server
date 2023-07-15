@@ -2,6 +2,11 @@ FROM python:3.8
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
+ARG USER_ID
+ARG GROUP_ID
+
+RUN groupadd -g "$GROUP_ID" app && useradd -u "$USER_ID" -r -g "$GROUP_ID" -s /sbin/nologin app
+
 WORKDIR /app
 ADD requirements.txt /app
 
@@ -9,6 +14,8 @@ ADD requirements.txt /app
 COPY docker-entrypoint.sh /app
 
 RUN pip install -r requirements.txt --quiet
+
+USER app
 
 EXPOSE 8000
 ENTRYPOINT ["./docker-entrypoint.sh"]
