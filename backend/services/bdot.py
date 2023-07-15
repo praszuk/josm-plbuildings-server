@@ -1,12 +1,11 @@
 import logging
-
 from json import JSONDecodeError
 
 from backend.api.v2.deps import BuildingAtParams
 from backend.core.config import settings
+from backend.models.enums import BuildingsDataSource, DataSourceFormat
 from backend.schemas.buildings_data import BuildingsData
 from backend.services.base import BaseDataSourceService
-from backend.models.enums import BuildingsDataSource, DataSourceFormat
 
 
 class BDOTService(BaseDataSourceService):
@@ -14,16 +13,19 @@ class BDOTService(BaseDataSourceService):
     BDOTService is responsible for getting buildings data from BDOT source
     which uses budynki.openstreetmap.org.pl site to get data.
     """
+
     FORMAT: DataSourceFormat = DataSourceFormat.GEOJSON
     DATA_SOURCE: BuildingsDataSource = BuildingsDataSource.BDOT
     SEARCH_DISTANCE = 1  # meters
 
     async def fetch_building_at(self, location: BuildingAtParams) -> None:
-        url = f'{settings.BUDYNKI_SERVER_URL}' \
-              '/josm_plugins/v2/nearest_building' \
-              f'?lon={location.lon}' \
-              f'&lat={location.lat}' \
-              f'&search_distance={self.SEARCH_DISTANCE}'
+        url = (
+            f'{settings.BUDYNKI_SERVER_URL}'
+            '/josm_plugins/v2/nearest_building'
+            f'?lon={location.lon}'
+            f'&lat={location.lat}'
+            f'&search_distance={self.SEARCH_DISTANCE}'
+        )
 
         data = {}
         try:
@@ -49,7 +51,7 @@ class BDOTService(BaseDataSourceService):
         return BuildingsData(
             format=self.FORMAT.value,
             source=self.DATA_SOURCE.value,
-            data=self._buildings_data
+            data=self._buildings_data,
         )
 
     @property

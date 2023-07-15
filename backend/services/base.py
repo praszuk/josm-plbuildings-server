@@ -1,7 +1,7 @@
+from abc import ABC, abstractmethod
+
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
-
-from abc import ABC, abstractmethod
 
 from backend.api.v2.deps import BuildingAtParams
 from backend.models.enums import BuildingsDataSource, DataSourceFormat
@@ -26,14 +26,14 @@ class BaseDataSourceService(ABC):
 
     @property
     @abstractmethod
-    def buildings_data(self) -> BuildingsData: ...
+    def buildings_data(self) -> BuildingsData:
+        ...
 
     @property
     @abstractmethod
-    def buildings_count(self) -> int: ...
+    def buildings_count(self) -> int:
+        ...
 
     @abstractmethod
-    async def fetch_building_at(
-        self,
-        location: BuildingAtParams
-    ) -> dict: ...
+    async def fetch_building_at(self, location: BuildingAtParams) -> dict:
+        ...

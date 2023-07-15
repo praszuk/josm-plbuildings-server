@@ -5,11 +5,12 @@ from sqlalchemy import (
     DateTime,
     Enum,
     Float,
-    Integer
+    Integer,
 )
 from sqlalchemy.types import ARRAY
 
 from backend.database.base import Base
+
 from .enums import BuildingsDataSource
 
 

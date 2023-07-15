@@ -1,15 +1,14 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, Query, Response
 from httpx import AsyncClient
 from sqlalchemy.orm import Session
 
-from datetime import datetime
-
+from backend.api.deps import get_db
 from backend.core.config import settings
 from backend.crud.buildings_log import create_buildings_log
 from backend.models.enums import BuildingsDataSource
 from backend.schemas.buildings_log import BuildingsLogCreate
-from backend.api.deps import get_db
-
 
 router = APIRouter()
 
@@ -30,11 +29,11 @@ def count_buildings(osm_data: str) -> int:
 
 @router.get('', deprecated=True)
 async def get_nearest_building(
-        data_source: BuildingsDataSource,
-        lat: float = Query(gt=-90, lt=90),
-        lon: float = Query(gt=-180, lt=180),
-        search_distance: float = Query(3, gt=0),
-        db: Session = Depends(get_db)
+    data_source: BuildingsDataSource,
+    lat: float = Query(gt=-90, lt=90),
+    lon: float = Query(gt=-180, lt=180),
+    search_distance: float = Query(3, gt=0),
+    db: Session = Depends(get_db),
 ):
     """
     :param data_source source from which will be data obtained
@@ -47,7 +46,6 @@ async def get_nearest_building(
     response_data = '<osm version="0.6"/>'
 
     async with AsyncClient() as client:
-
         if data_source == BuildingsDataSource.BDOT:
             response = await client.get(
                 f'{settings.BUDYNKI_SERVER_URL}'
@@ -69,7 +67,7 @@ async def get_nearest_building(
                     lon=lon,
                     data_sources=[data_source],
                     building_count=building_count,
-                )
+                ),
             )
 
         return Response(content=response_data, media_type='application/xml')

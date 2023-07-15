@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Request
 from urllib.parse import urlencode
+
+from fastapi import FastAPI, Request
 
 from backend.api.v1.api import api_router as api_router_v1  # deprecated
 from backend.api.v2.api import api_router as api_router_v2
@@ -23,9 +24,8 @@ async def flatten_query_string_lists(request: Request, call_next):
     for key, value in request.query_params.multi_items():
         flattened.extend((key, entry) for entry in value.split(','))
 
-    request.scope['query_string'] = urlencode(
-        flattened,
-        doseq=True
-    ).encode('utf-8')
+    request.scope['query_string'] = urlencode(flattened, doseq=True).encode(
+        'utf-8'
+    )
 
     return await call_next(request)

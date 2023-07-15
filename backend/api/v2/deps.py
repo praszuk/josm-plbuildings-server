@@ -1,6 +1,6 @@
-from fastapi import Query
-
 from typing import List
+
+from fastapi import Query
 
 from backend.models.enums import BuildingsDataSource
 

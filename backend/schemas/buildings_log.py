@@ -1,7 +1,7 @@
-from pydantic import BaseModel, validator
-
 from datetime import datetime
 from typing import List, Optional
+
+from pydantic import BaseModel, validator
 
 from backend.models.enums import BuildingsDataSource
 
