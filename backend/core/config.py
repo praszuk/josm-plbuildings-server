@@ -14,6 +14,9 @@ class Settings(BaseSettings):
         environ.get('POSTGRES_DB')
     )
     BUDYNKI_SERVER_URL: str = environ.get('BUDYNKI_SERVER_URL').rstrip('/')
+    EGIB_PLBUILDINGS_SERVER_URL = environ.get(
+        'EGIB_PLBUILDINGS_SERVER_URL'
+    ).rstrip('/')
 
 
 settings = Settings()

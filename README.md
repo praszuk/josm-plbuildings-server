@@ -2,9 +2,7 @@
 ## Description
 API server which is responsible for obtaining buildings data for [JOSM PLBuildings Plugin](https://github.com/praszuk/josm-plbuildings-plugin)    
 
-Currently, only BDOT is available as a data source.
-It fetches data from the [budynki](https://budynki.openstreetmap.org.pl/) page,
-which has previously processed and parsed it. 
+It uses [BDOT](https://budynki.openstreetmap.org.pl/) and [EGiB](https://github.com/praszuk/egib-plbuildings) as a data sources.
 
 ## How to use it
 ### Example .env file
@@ -17,6 +15,7 @@ POSTGRES_USER=database_user
 POSTGRES_PASSWORD=database_password
 # External servers
 BUDYNKI_SERVER_URL=https://budynki.openstreetmap.org.pl
+EGIB_PLBUILDINGS_SERVER_URL=https://egib-plbuildings.openstreetmap.org.pl
 ```
 You can also add variables for docker.
 It prevents a permissions error (read-only files) on e.g. creating migrations
