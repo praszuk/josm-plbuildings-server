@@ -8,6 +8,8 @@ APP_DIR=backend
 
 
 install:
+	virtualenv -p python3 $(VENV)
+	source $(VENV)/bin/activate
 	$(PYTHON) -m pip install -r requirements-dev.txt
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit install; fi
 
