@@ -1,0 +1,5 @@
+black==23.7.0
+isort==5.12
+pre-commit==3.3.3
+pip-compile-multi==2.6.4
+pur==7.3.2
