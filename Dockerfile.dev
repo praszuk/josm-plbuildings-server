@@ -8,7 +8,7 @@ ARG GROUP_ID
 RUN groupadd -g "$GROUP_ID" app && useradd -u "$USER_ID" -r -g "$GROUP_ID" -s /sbin/nologin app
 
 WORKDIR /app
-ADD requirements.txt /app
+ADD requirements/requirements.txt /app
 
 # Copy entrypoint
 COPY docker-entrypoint.sh /app
