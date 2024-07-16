@@ -1,4 +1,4 @@
-.PHONY: install black black-check isort isort-check format format-check dprod-run drun clean dclean
+.PHONY: install black black-check isort isort-check format format-check dprod-run drun clean dclean update
 
 SHELL := /bin/bash
 VENV=.venv
@@ -42,3 +42,7 @@ dclean:
 clean: dclean
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit uninstall; fi
 	rm -rf  __pycache__ $(VENV)
+
+update:
+	for filename in requirements/*.in; do pur -r $$filename; done
+	pip-compile-multi
