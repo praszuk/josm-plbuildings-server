@@ -1,1 +1,1 @@
-from .buildings_log import BuildingsLog
+from .buildings_log import BuildingsLog  # noqa

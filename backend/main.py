@@ -24,8 +24,6 @@ async def flatten_query_string_lists(request: Request, call_next):
     for key, value in request.query_params.multi_items():
         flattened.extend((key, entry) for entry in value.split(','))
 
-    request.scope['query_string'] = urlencode(flattened, doseq=True).encode(
-        'utf-8'
-    )
+    request.scope['query_string'] = urlencode(flattened, doseq=True).encode('utf-8')
 
     return await call_next(request)
