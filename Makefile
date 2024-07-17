@@ -11,6 +11,7 @@ install:
 	virtualenv -p python3 $(VENV)
 	source $(VENV)/bin/activate
 	$(PYTHON) -m pip install -r requirements/requirements-dev.txt
+	$(PYTHON) -m pip install -r requirements/requirements.txt
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit install; fi
 
 format:
