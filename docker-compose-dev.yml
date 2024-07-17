@@ -11,6 +11,8 @@ services:
         command: -p ${POSTGRES_PORT}
         networks:
             - dev-net
+        volumes:
+            - ./.db_dev:/var/lib/postgresql/data
     backend:
         restart: always
         build:
