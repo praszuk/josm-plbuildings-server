@@ -1,10 +1,5 @@
-[tool.black]
-line-length = 79
-target-version = ['py311']
-include = '\.pyi?$'
-skip-numeric-underscore-normalization = true
-skip-string-normalization = true
+[tool.ruff]
+line-length = 100
 
-[tool.isort]
-profile = 'black'
-line_length = 79
+[tool.ruff.format]
+quote-style = "single"

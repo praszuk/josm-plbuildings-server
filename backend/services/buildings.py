@@ -15,9 +15,7 @@ from backend.services.egib import EGIBService
 
 
 class BuildingsService(BaseService):
-    async def get_building_at(
-        self, location: BuildingAtParams
-    ) -> List[BuildingsData]:
+    async def get_building_at(self, location: BuildingAtParams) -> List[BuildingsData]:
         request_receive_dt = datetime.utcnow()
 
         result_buildings_data = []
@@ -31,9 +29,7 @@ class BuildingsService(BaseService):
             if BuildingsDataSource.EGIB in location.data_sources:
                 services.append(EGIBService(client))
 
-            await asyncio.gather(
-                *[s.fetch_building_at(location) for s in services]
-            )
+            await asyncio.gather(*[s.fetch_building_at(location) for s in services])
 
             for service in services:
                 result_buildings_data.append(service.buildings_data)
