@@ -11,6 +11,8 @@ services:
         command: -p ${POSTGRES_PORT}
         networks:
             - prod-net
+        volumes:
+            - ./.db:/var/lib/postgresql/data
     backend:
         restart: always
         env_file:
