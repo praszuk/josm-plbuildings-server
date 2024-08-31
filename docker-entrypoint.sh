@@ -9,4 +9,4 @@ done
 
 # Start server
 echo "Starting server"
-uvicorn backend.main:app $( (( $DEV == 1 )) && printf %s '--reload' ) --host 0.0.0.0 --port 8000
+uvicorn backend.main:app $( (( $DEV == 1 )) && printf %s '--reload' ) --host 0.0.0.0 --port 8000 --forwarded-allow-ips=*
