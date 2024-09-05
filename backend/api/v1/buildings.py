@@ -29,7 +29,7 @@ def count_buildings(osm_data: str) -> int:
 
 @router.get('', deprecated=True)
 async def get_nearest_building(
-    data_source: BuildingsDataSource,
+    data_source: str = 'bdot',
     lat: float = Query(gt=-90, lt=90),
     lon: float = Query(gt=-180, lt=180),
     search_distance: float = Query(3, gt=0),
@@ -46,7 +46,8 @@ async def get_nearest_building(
     response_data = '<osm version="0.6"/>'
 
     async with AsyncClient() as client:
-        if data_source == BuildingsDataSource.BDOT:
+        if data_source.lower() == 'bdot':
+            data_source = BuildingsDataSource.BDOT
             response = await client.get(
                 f'{settings.BUDYNKI_SERVER_URL}'
                 '/josm_plugins/nearest_building'
