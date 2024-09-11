@@ -15,7 +15,7 @@ POSTGRES_USER=database_user
 POSTGRES_PASSWORD=database_password
 # External servers
 BUDYNKI_SERVER_URL=https://budynki.openstreetmap.org.pl
-EGIB_PLBUILDINGS_SERVER_URL=https://egib-plbuildings.openstreetmap.org.pl
+EGIB_PLBUILDINGS_SERVER_URL=https://egib
 ```
 You can also add variables for docker.
 It prevents a permissions error (read-only files) on e.g. creating migrations
