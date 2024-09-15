@@ -20,12 +20,16 @@ services:
         build:
             context: .
             dockerfile: Dockerfile.prod
+            args:
+                USER_ID: ${USER_ID:-1000}
+                GROUP_ID: ${GROUP_ID:-1000}
+        volumes:
+            - ./.logs:/app/.logs/
         command: ./docker-entrypoint.sh
         networks:
             - prod-net
         environment:
             DEV: 0
-
     nginx:
         restart: always
         image: nginx:1.27.0-alpine

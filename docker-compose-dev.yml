@@ -27,12 +27,12 @@ services:
             - ./backend:/app/backend
             - ./migrations:/app/migrations
             - ./alembic.ini:/app/alembic.ini
+            - ./.logs:/app/.logs/
         command: ./docker-entrypoint.sh
         networks:
             - dev-net
         environment:
             DEV: 1
-
     nginx:
         restart: always
         image: nginx:1.27.0-alpine
