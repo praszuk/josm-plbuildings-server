@@ -1,33 +1,30 @@
 FROM python:3.11
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ARG USER_ID
+ARG GROUP_ID
+
+ENV APP_DIR=/app
 
 # Create user (app) to avoid using root
-RUN mkdir -p /home/app
-RUN groupadd -r app && useradd -r -g app -d /home/app -s /sbin/nologin app
+RUN mkdir -p $APP_DIR
+RUN groupadd -g "$GROUP_ID" app && useradd -u "$USER_ID" -r -g "$GROUP_ID" -s /sbin/nologin app
 
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/backend
-RUN mkdir $APP_HOME
-
-WORKDIR $APP_HOME
+WORKDIR $APP_DIR
 
 # Install dependencies
-COPY requirements/requirements.txt $APP_HOME
+COPY requirements/requirements.txt $APP_DIR
 RUN pip install -r requirements.txt --quiet
 
 # Copy project
-COPY backend/ $APP_HOME/backend/
+COPY backend/ $APP_DIR/backend/
 
 # Copy migration files (alembic)
-COPY migrations/ $APP_HOME/migrations/
-COPY alembic.ini $APP_HOME/.
+COPY migrations/ $APP_DIR/migrations/
+COPY alembic.ini $APP_DIR/.
 
 # Copy entrypoint
-# Copy entrypoint
-COPY docker-entrypoint.sh $APP_HOME
-
-RUN chown -R app:app $APP_HOME
+COPY docker-entrypoint.sh $APP_DIR
 USER app
 
 EXPOSE 8000
