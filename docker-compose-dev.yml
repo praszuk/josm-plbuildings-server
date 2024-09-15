@@ -31,19 +31,9 @@ services:
         command: ./docker-entrypoint.sh
         networks:
             - dev-net
+        ports:
+            - 8080:8000
         environment:
             DEV: 1
-    nginx:
-        restart: always
-        image: nginx:1.27.0-alpine
-        ports:
-            - 8080:80
-        volumes:
-            - ./nginx/nginx-proxy-dev.conf:/etc/nginx/conf.d/default.conf:ro
-        depends_on:
-          - backend
-        networks:
-            - dev-net
-
 networks:
     dev-net:

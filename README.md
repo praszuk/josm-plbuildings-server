@@ -33,8 +33,9 @@ docker-compose -f docker-compose-dev.yml -p dev up
 ```
 
 ### Run production
+_Note: Port 80_
 ```
-PORT=80 docker-compose -f docker-compose-prod.yml -p prod up -d
+docker-compose -f docker-compose-prod.yml up -d
 ```
 
 ## License
