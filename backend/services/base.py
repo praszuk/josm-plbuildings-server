@@ -16,6 +16,7 @@ class BaseService:
 class BaseDataSourceService(ABC):
     FORMAT: DataSourceFormat
     DATA_SOURCE: BuildingsDataSource
+    TIMEOUT = 10  # seconds
 
     def __init__(self, client: AsyncClient):
         assert self.FORMAT is not None

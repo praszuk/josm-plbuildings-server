@@ -1,6 +1,8 @@
 import logging
 from json import JSONDecodeError
 
+from httpx import HTTPError
+
 from backend.api.v2.deps import BuildingAtParams
 from backend.core.config import settings
 from backend.models.enums import BuildingsDataSource, DataSourceFormat
@@ -27,9 +29,9 @@ class EGIBService(BaseDataSourceService):
 
         data = {}
         try:
-            response = await self._client.get(url)
+            response = await self._client.get(url, timeout=self.TIMEOUT)
             data = response.json()
-        except IOError as e:
+        except HTTPError as e:
             logging.warning(f'Error on downloading building from: {url} {e}')
         except JSONDecodeError as e:
             logging.warning(f'Error on parsing response: {data} {e}')
