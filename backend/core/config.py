@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     )
     BUDYNKI_SERVER_URL: str = environ.get('BUDYNKI_SERVER_URL').rstrip('/')
     EGIB_PLBUILDINGS_SERVER_URL: str = environ.get('EGIB_PLBUILDINGS_SERVER_URL').rstrip('/')
+    ACCESS_LOGGER: str = 'plbuildings_access'
+    DEFAULT_LOGGER: str = 'plbuildings_default'
 
 
 settings = Settings()
