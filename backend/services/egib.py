@@ -1,4 +1,4 @@
-import logging
+from logging import getLogger
 from json import JSONDecodeError
 
 from httpx import HTTPError
@@ -8,6 +8,9 @@ from backend.core.config import settings
 from backend.models.enums import BuildingsDataSource, DataSourceFormat
 from backend.schemas.buildings_data import BuildingsData
 from backend.services.base import BaseDataSourceService
+
+
+logger = getLogger(settings.DEFAULT_LOGGER)
 
 
 class EGIBService(BaseDataSourceService):
@@ -32,9 +35,9 @@ class EGIBService(BaseDataSourceService):
             response = await self._client.get(url, timeout=self.TIMEOUT)
             data = response.json()
         except HTTPError as e:
-            logging.warning(f'Error on downloading building from: {url} {e}')
+            logger.error(f'Error on downloading building from: {url} {e}')
         except JSONDecodeError as e:
-            logging.warning(f'Error on parsing response: {data} {e}')
+            logger.error(f'Error on parsing response: {data} {e}')
 
         # empty response or unexpected server error
         if 'features' not in data:
