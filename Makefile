@@ -1,4 +1,4 @@
-.PHONY: install black black-check isort isort-check format format-check dprod-run drun clean dclean
+.PHONY: install format format-check lint lint-check dprod-run drun clean dclean update
 
 SHELL := /bin/bash
 VENV=.venv
@@ -8,24 +8,23 @@ APP_DIR=backend
 
 
 install:
-	$(PYTHON) -m pip install -r requirements-dev.txt
+	virtualenv -p python3 $(VENV)
+	source $(VENV)/bin/activate
+	$(PYTHON) -m pip install -r requirements/requirements-dev.txt
+	$(PYTHON) -m pip install -r requirements/requirements.txt
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit install; fi
 
-isort:
-	$(PYTHON) -m isort $(APP_DIR)
+format:
+	$(PYTHON) -m ruff format $(APP_DIR)
 
-isort-check:
-	$(PYTHON) -m isort --check --diff $(APP_DIR)
+format-check:
+	$(PYTHON) -m ruff format --diff $(APP_DIR)
 
-black-check:
-	$(PYTHON) -m black --check --diff $(APP_DIR)
+lint:
+	$(PYTHON) -m ruff check $(APP_DIR)
 
-black:
-	$(PYTHON) -m black $(APP_DIR)
-
-format: isort black
-
-format-check: isort-check black-check
+lint-check:
+	$(PYTHON) -m ruff check --diff $(APP_DIR)
 
 drun:
 	docker compose -f docker-compose-dev.yml up
@@ -40,3 +39,7 @@ dclean:
 clean: dclean
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit uninstall; fi
 	rm -rf  __pycache__ $(VENV)
+
+update:
+	for filename in requirements/*.in; do pur -r $$filename; done
+	pip-compile-multi

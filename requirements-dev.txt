@@ -1,3 +1,0 @@
-black~=23.3
-isort~=5.12
-pre-commit~=3.3.3

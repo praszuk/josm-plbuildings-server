@@ -1,7 +1,9 @@
 .*
+.logs/*
 !.gitignore
 !.gitkeep
 !.dockerignore
 !.github/
+!.logs/
 !.pre-commit-config.yaml
 __pycache__/

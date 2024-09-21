@@ -1,8 +1,7 @@
-version: '3'
 services:
     db:
         restart: always
-        image: "postgres:14.2"
+        image: "postgres:16.3"
         env_file:
             - .env
         environment:
@@ -12,6 +11,8 @@ services:
         command: -p ${POSTGRES_PORT}
         networks:
             - prod-net
+        volumes:
+            - ./.db:/var/lib/postgresql/data
     backend:
         restart: always
         env_file:
@@ -19,23 +20,17 @@ services:
         build:
             context: .
             dockerfile: Dockerfile.prod
+            args:
+                USER_ID: ${USER_ID:-1000}
+                GROUP_ID: ${GROUP_ID:-1000}
+        volumes:
+            - ./.logs:/app/.logs/
         command: ./docker-entrypoint.sh
         networks:
             - prod-net
         environment:
             DEV: 0
-
-    nginx:
-        restart: always
-        image: nginx:1.21.6-alpine
         ports:
-            - ${PORT:-80}:80
-        volumes:
-            - ./nginx/nginx-proxy-prod.conf:/etc/nginx/conf.d/default.conf:ro
-        depends_on:
-          - backend
-        networks:
-            - prod-net
-
+            - 80:8000
 networks:
     prod-net:
