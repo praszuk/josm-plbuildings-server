@@ -1,8 +1,7 @@
-version: '3'
 services:
     db:
         restart: always
-        image: "postgres:14.2"
+        image: "postgres:16.3"
         env_file:
             - .env
         environment:
@@ -12,34 +11,29 @@ services:
         command: -p ${POSTGRES_PORT}
         networks:
             - dev-net
+        volumes:
+            - ./.db_dev:/var/lib/postgresql/data
     backend:
         restart: always
         build:
             context: .
             dockerfile: Dockerfile.dev
+            args:
+                USER_ID: ${USER_ID:-1000}
+                GROUP_ID: ${GROUP_ID:-1000}
         env_file:
             - .env
         volumes:
             - ./backend:/app/backend
             - ./migrations:/app/migrations
             - ./alembic.ini:/app/alembic.ini
+            - ./.logs:/app/.logs/
         command: ./docker-entrypoint.sh
         networks:
             - dev-net
+        ports:
+            - 8080:8000
         environment:
             DEV: 1
-
-    nginx:
-        restart: always
-        image: nginx:1.21.6-alpine
-        ports:
-            - 8080:80
-        volumes:
-            - ./nginx/nginx-proxy-dev.conf:/etc/nginx/conf.d/default.conf:ro
-        depends_on:
-          - backend
-        networks:
-            - dev-net
-
 networks:
     dev-net:

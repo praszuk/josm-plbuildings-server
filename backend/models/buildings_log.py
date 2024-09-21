@@ -5,10 +5,12 @@ from sqlalchemy import (
     DateTime,
     Enum,
     Float,
-    Integer
+    Integer,
 )
+from sqlalchemy.types import ARRAY
 
 from backend.database.base import Base
+
 from .enums import BuildingsDataSource
 
 
@@ -22,7 +24,7 @@ class BuildingsLog(Base):
     rq_recv_dt = Column(DateTime(timezone=True), nullable=False)
     rq_duration_ms = Column(Integer, nullable=False)
 
-    data_source = Column(Enum(BuildingsDataSource), nullable=False)
+    data_sources = Column(ARRAY(Enum(BuildingsDataSource)), nullable=False)
     lat = Column(Float, nullable=False)
     lon = Column(Float, nullable=False)
 

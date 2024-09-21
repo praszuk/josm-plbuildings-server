@@ -1,0 +1,65 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  # Txt
+  default:
+    (): 'uvicorn.logging.DefaultFormatter'
+    fmt: '%(asctime)s %(levelprefix)-9s %(name)s -: %(message)s'
+    use_colors: False
+  # Json
+  plbuildings_default:
+    (): 'pythonjsonlogger.jsonlogger.JsonFormatter'
+    format: '%(asctime)s %(levelname)s %(name)s %(message)s'
+  plbuildings_access:
+    (): 'backend.main.AccessJsonFormatter'
+    format: '%(asctime)s %(levelname)s %(name)s %(client_addr)s %(request_line)s %(status_code)s %(user_agent)s'
+handlers:
+  console_default:
+  # Txt
+    class: logging.StreamHandler
+    formatter: default
+    stream: ext://sys.stdout
+  # Json
+  plbuildings_default:
+    class: logging.handlers.RotatingFileHandler
+    formatter: plbuildings_default
+    filename: .logs/default.jsonl
+    maxBytes: 5242880  # 5 MB max file size
+    backupCount: 1  # Keep only one file (current + 1 backup)
+  plbuildings_access:
+    class: logging.handlers.RotatingFileHandler
+    formatter: plbuildings_access
+    filename: .logs/access.jsonl
+    maxBytes: 5242880  # 5 MB max file size
+    backupCount: 1  # Keep only one file (current + 1 backup)
+  console_plbuildings_default:
+    class: logging.StreamHandler
+    formatter: plbuildings_default
+    stream: ext://sys.stdout
+  console_plbuildings_access:
+    class: logging.StreamHandler
+    formatter: plbuildings_access
+    stream: ext://sys.stdout
+loggers:
+  # Txt
+  uvicorn:
+    level: INFO
+    handlers:
+      - console_default
+  uvicorn.error:
+    level: INFO
+  uvicorn.access:  # disabled
+    level: INFO
+    propagate: False
+  # Json
+  plbuildings_access:
+    level: INFO
+    propagate: False
+    handlers:
+      - plbuildings_access
+      - console_plbuildings_access
+  plbuildings_default:
+    level: INFO
+    handlers:
+      - plbuildings_default
+      - console_plbuildings_default
