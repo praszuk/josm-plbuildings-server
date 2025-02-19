@@ -1,10 +1,10 @@
-fastapi==0.115.6
+fastapi==0.115.8
 uvicorn[standard]==0.34.0
 httpx==0.28.1
-pydantic==2.10.4
+pydantic==2.10.6
 pydantic-settings==2.7.1
 psycopg2-binary==2.9.10
 asyncpg==0.30.0
-sqlalchemy==2.0.36
-alembic==1.14.0
+sqlalchemy==2.0.38
+alembic==1.14.1
 python-json-logger==3.2.1
