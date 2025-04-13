@@ -3,7 +3,7 @@ from logging import getLogger
 from urllib.parse import urlencode
 
 from fastapi import FastAPI, Request
-from pythonjsonlogger import jsonlogger
+from pythonjsonlogger.json import JsonFormatter
 
 from backend.api.v1.api import api_router as api_router_v1  # deprecated
 from backend.api.v2.api import api_router as api_router_v2
@@ -74,7 +74,7 @@ async def log_access(request: Request, call_next):
     return response
 
 
-class AccessJsonFormatter(jsonlogger.JsonFormatter):
+class AccessJsonFormatter(JsonFormatter):
     def add_fields(self, log_record, record, message_dict):
         super(AccessJsonFormatter, self).add_fields(log_record, record, message_dict)
         log_record['client_addr'] = log_record.get('client_addr', 'Unknown')
