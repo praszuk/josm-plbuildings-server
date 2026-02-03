@@ -12,7 +12,7 @@ services:
         networks:
             - dev-net
         volumes:
-            - ./.db_dev:/var/lib/postgresql/data
+            - ${DB_DIR:-./.db_dev}:/var/lib/postgresql/data
     backend:
         restart: always
         build:
@@ -27,7 +27,7 @@ services:
             - ./backend:/app/backend
             - ./migrations:/app/migrations
             - ./alembic.ini:/app/alembic.ini
-            - ./.logs:/app/.logs/
+            - ${LOGS_DIR:-./.logs}:/app/.logs/
         command: ./docker-entrypoint.sh
         networks:
             - dev-net
