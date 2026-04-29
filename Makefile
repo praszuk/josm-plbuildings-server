@@ -1,4 +1,4 @@
-.PHONY: install format format-check lint lint-check dprod-run drun clean dclean update
+.PHONY: install format format-check lint lint-check dprod-run drun clean dclean compile-deps upgrade-deps
 
 SHELL := /bin/bash
 VENV=.venv
@@ -40,6 +40,9 @@ clean: dclean
 	if [ -d ".git" ]; then $(PYTHON) -m pre_commit uninstall; fi
 	rm -rf  __pycache__ $(VENV)
 
-update:
-	for filename in requirements/*.in; do pur -r $$filename; done
-	pip-compile-multi
+compile-deps:
+	pip-compile-multi --no-upgrade -d $(APP_DIR)/requirements/
+
+upgrade-deps:
+	for filename in $(APP_DIR)/requirements/*.in; do pur -r $$filename; done
+	pip-compile-multi -d $(APP_DIR)/requirements/
