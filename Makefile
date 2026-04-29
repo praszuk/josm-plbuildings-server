@@ -41,8 +41,8 @@ clean: dclean
 	rm -rf  __pycache__ $(VENV)
 
 compile-deps:
-	pip-compile-multi --no-upgrade -d $(APP_DIR)/requirements/
+	pip-compile-multi --no-upgrade -d requirements/
 
 upgrade-deps:
-	for filename in $(APP_DIR)/requirements/*.in; do pur -r $$filename; done
-	pip-compile-multi -d $(APP_DIR)/requirements/
+	for filename in requirements/*.in; do pur -r $$filename; done
+	pip-compile-multi -d requirements/
