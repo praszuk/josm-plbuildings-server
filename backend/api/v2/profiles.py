@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter
 
 from backend.models.enums import BuildingsDataSource
@@ -28,5 +26,5 @@ DATA_SOURCES_PROFILES = [
 
 
 @router.get('/')
-async def get_data_sources_profiles() -> List[DataSourceProfile]:
+async def get_data_sources_profiles() -> list[DataSourceProfile]:
     return DATA_SOURCES_PROFILES

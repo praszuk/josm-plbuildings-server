@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel, validator
 
@@ -10,11 +9,11 @@ class BuildingsLog(BaseModel):
     rq_recv_dt: datetime
     rq_duration_ms: int
 
-    data_sources: List[BuildingsDataSource]
+    data_sources: list[BuildingsDataSource]
     lat: float
     lon: float
 
-    building_count: Optional[int] = 0
+    building_count: int | None = 0
 
     @validator('rq_duration_ms')
     def rq_duration_ms_gte_zero(cls, val):

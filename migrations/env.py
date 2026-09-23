@@ -1,13 +1,11 @@
-from alembic import context
-
-from sqlalchemy import engine_from_config, pool
-
 from logging.config import fileConfig
+
+from alembic import context
+from sqlalchemy import engine_from_config, pool
 
 from backend.core.config import settings
 from backend.database.base import Base
 from backend.models import *  # noqa
-
 
 DATABASE_URL = settings.DATABASE_URL
 
