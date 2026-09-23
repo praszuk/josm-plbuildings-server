@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -12,4 +12,4 @@ class BuildingsData(BaseModel):
 
     source: BuildingsDataSource
     format: DataSourceFormat
-    data: Optional[Dict[str, Any]]
+    data: dict[str, Any] | None

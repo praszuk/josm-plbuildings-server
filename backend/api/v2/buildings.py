@@ -1,4 +1,4 @@
-from typing import List
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -14,8 +14,8 @@ router = APIRouter()
 
 @router.get('/')
 async def get_building_at(
-    location: BuildingAtParams = Depends(BuildingAtParams),
-    db: Session = Depends(get_db),
-) -> List[BuildingsData]:
+    location: Annotated[BuildingAtParams, Depends(BuildingAtParams)],
+    db: Annotated[Session, Depends(get_db)],
+) -> list[BuildingsData]:
     buildings_data = await BuildingsService(db).get_building_at(location)
     return buildings_data

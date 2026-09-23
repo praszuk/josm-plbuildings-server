@@ -1,5 +1,5 @@
-from logging import getLogger
 from json import JSONDecodeError
+from logging import getLogger
 
 from httpx import HTTPError
 
@@ -8,7 +8,6 @@ from backend.core.config import settings
 from backend.models.enums import BuildingsDataSource, DataSourceFormat
 from backend.schemas.buildings_data import BuildingsData
 from backend.services.base import BaseDataSourceService
-
 
 logger = getLogger(settings.DEFAULT_LOGGER)
 

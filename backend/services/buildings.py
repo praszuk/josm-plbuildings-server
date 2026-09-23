@@ -1,6 +1,5 @@
 import asyncio
-from datetime import datetime
-from typing import List
+from datetime import datetime, timezone
 
 from httpx import AsyncClient
 
@@ -15,8 +14,8 @@ from backend.services.egib import EGIBService
 
 
 class BuildingsService(BaseService):
-    async def get_building_at(self, location: BuildingAtParams) -> List[BuildingsData]:
-        request_receive_dt = datetime.utcnow()
+    async def get_building_at(self, location: BuildingAtParams) -> list[BuildingsData]:
+        request_receive_dt = datetime.now(timezone.utc)
 
         result_buildings_data = []
         building_count = 0
@@ -35,7 +34,7 @@ class BuildingsService(BaseService):
                 result_buildings_data.append(service.buildings_data)
                 building_count += service.buildings_count
 
-        request_timedelta = datetime.utcnow() - request_receive_dt
+        request_timedelta = datetime.now(timezone.utc) - request_receive_dt
         request_duration_ms = request_timedelta.total_seconds() * 1000
 
         create_buildings_log(

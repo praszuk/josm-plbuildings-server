@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timezone
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, Response
 from httpx import AsyncClient
@@ -29,11 +30,11 @@ def count_buildings(osm_data: str) -> int:
 
 @router.get('', deprecated=True)
 async def get_nearest_building(
+    db: Annotated[Session, Depends(get_db)],
     data_source: str = 'bdot',
     lat: float = Query(gt=-90, lt=90),
     lon: float = Query(gt=-180, lt=180),
     search_distance: float = Query(3, gt=0),
-    db: Session = Depends(get_db),
 ):
     """
     :param data_source source from which will be data obtained
@@ -42,7 +43,7 @@ async def get_nearest_building(
     :param search_distance radius in meters
     :param db: database session
     """
-    request_receive_dt = datetime.utcnow()
+    request_receive_dt = datetime.now(timezone.utc)
     response_data = '<osm version="0.6"/>'
 
     async with AsyncClient() as client:
@@ -56,7 +57,7 @@ async def get_nearest_building(
             response_data = response.text
             building_count = count_buildings(response_data)
 
-            request_timedelta = datetime.utcnow() - request_receive_dt
+            request_timedelta = datetime.now(timezone.utc) - request_receive_dt
             request_duration_ms = request_timedelta.total_seconds() * 1000
 
             create_buildings_log(
