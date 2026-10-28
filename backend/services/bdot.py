@@ -29,6 +29,7 @@ class BDOTService(BaseDataSourceService):
             f'?lon={location.lon}'
             f'&lat={location.lat}'
             f'&search_distance={self.SEARCH_DISTANCE}'
+            f'&source=BDOT'
         )
 
         data = {}
@@ -47,6 +48,12 @@ class BDOTService(BaseDataSourceService):
         # Move OSM tags from nested key ("tags") to upper key ("properties")
         for feature in data['features']:
             feature['properties'].update(feature['properties'].pop('tags'))
+
+            # Remove unwanted tags to avoid conflicts with the plugin
+            feature['properties'].pop('fixme', None)
+            feature['properties'].pop('source', None)
+            feature['properties'].pop('source:building', None)
+            feature['properties'].pop('source:geometry', None)
 
         self._buildings_data = data
 
