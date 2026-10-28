@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, Response
@@ -43,7 +43,7 @@ async def get_nearest_building(
     :param search_distance radius in meters
     :param db: database session
     """
-    request_receive_dt = datetime.now(timezone.utc)
+    request_receive_dt = datetime.now(UTC)
     response_data = '<osm version="0.6"/>'
 
     async with AsyncClient() as client:
@@ -57,7 +57,7 @@ async def get_nearest_building(
             response_data = response.text
             building_count = count_buildings(response_data)
 
-            request_timedelta = datetime.now(timezone.utc) - request_receive_dt
+            request_timedelta = datetime.now(UTC) - request_receive_dt
             request_duration_ms = request_timedelta.total_seconds() * 1000
 
             create_buildings_log(
