@@ -1,4 +1,4 @@
-ruff==0.16.8
+ruff==0.17.3
 pre-commit==4.6.2
-pip-compile-multi==3.3.1
+pip-compile-multi==3.3.2
 pur==7.4.0
