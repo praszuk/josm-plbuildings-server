@@ -29,6 +29,7 @@ class BDOTService(BaseDataSourceService):
             f'?lon={location.lon}'
             f'&lat={location.lat}'
             f'&search_distance={self.SEARCH_DISTANCE}'
+            f'&source=BDOT'
         )
 
         data = {}
