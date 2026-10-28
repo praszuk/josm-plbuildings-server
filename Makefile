@@ -21,7 +21,7 @@ format-check:
 	$(PYTHON) -m ruff format --diff $(APP_DIR)
 
 lint:
-	$(PYTHON) -m ruff check $(APP_DIR)
+	$(PYTHON) -m ruff check --fix $(APP_DIR)
 
 lint-check:
 	$(PYTHON) -m ruff check --diff $(APP_DIR)
