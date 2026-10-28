@@ -49,6 +49,12 @@ class BDOTService(BaseDataSourceService):
         for feature in data['features']:
             feature['properties'].update(feature['properties'].pop('tags'))
 
+            # Remove unwanted tags to avoid conflicts with the plugin
+            feature['properties'].pop('fixme', None)
+            feature['properties'].pop('source', None)
+            feature['properties'].pop('source:building', None)
+            feature['properties'].pop('source:geometry', None)
+
         self._buildings_data = data
 
     @property
